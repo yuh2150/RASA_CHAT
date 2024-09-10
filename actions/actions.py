@@ -16,6 +16,11 @@ from rasa_sdk.events import (
     EventType,
 )
 
+from actions.API.booking import BookingAPI
+from actions.API.geoCoding import GeoCodingAPI
+from actions.API.getKey import OAuthClient
+from actions.API.getQuotes import QuotesAPI
+
 
 class ActionCurrentTime(Action):
     def name(self) -> Text:

@@ -140,3 +140,73 @@ stories:
   - action: utter_thumbsup
   - intent: bye
   - action: utter_bye
+
+- story: interactive_story_2
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - slot_was_set:
+    - shown_privacy: true
+  - action: utter_what_help
+  - intent: book_a_ride
+  - action: utter_moreinformation
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - slot_was_set:
+    - requested_slot: person_name
+  - intent: enter_data
+    entities:
+    - name: Huy
+  - slot_was_set:
+    - person_name: Huy
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: number_contact
+  - intent: enter_data
+    entities:
+    - number: '0917181880'
+  - slot_was_set:
+    - number_contact: '0917181880'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: inquire_time
+  - action: action_current_time
+  - action: utter_ask_continue_booking
+  - intent: affirm
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: enter_data
+    entities:
+    - location: 271 Nguyen Van Linh
+  - slot_was_set:
+    - pick_up_location: 271 Nguyen Van Linh
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: destination_location
+  - intent: enter_data
+    entities:
+    - location: 03 Le Dinh Ly
+  - slot_was_set:
+    - destination_location: 03 Le Dinh Ly
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_time
+  - intent: enter_data
+    entities:
+    - time: 10:30 PM
+  - slot_was_set:
+    - pick_up_time: 10:30 PM
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_book_ride_form
+  - action: utter_ask_feedback
+  - intent: provide_feedback
+  - action: utter_awesome
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_bye
+  - action: action_restart

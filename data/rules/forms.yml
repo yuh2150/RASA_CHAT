@@ -23,7 +23,6 @@ rules:
   steps:
   - action: utter_ask_continue_booking
   - intent: affirm
-  - action: utter_great
   - action: book_ride_form
   - active_loop: null
   - action: action_submit_book_ride_form

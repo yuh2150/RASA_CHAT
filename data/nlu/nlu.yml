@@ -2,9 +2,19 @@ version: "3.1"
 nlu:
 - intent: inquire_time
   examples: |
-    - what time is it?
     - what's the current time?
-    - what time is it ?
+    - what time ?
+    - What time is it now?
+    - Can you tell me the time?
+    - What’s the current time?
+    - Tell me the time, please.
+    - What is the time now?
+    - Do you know the current time?
+    - What time is it?
+    - Can you give me the current time?
+    - I want to know the time.
+    - Could you tell me the time?
+    - what current time
 - intent: provide_feedback
   examples: |
     - feedback
@@ -24,6 +34,7 @@ nlu:
     - i want book a car
     - i want boook a ride
     - i want book a ride
+    - [271 Nguyen Van Linh](location)
 - intent: cancel_ride
   examples: |
     - cancel ride
@@ -1064,6 +1075,10 @@ nlu:
     - [271 Le Dinh Ly](location), [Vinh Trung](location), [Hai Chau](location), [Đa Nang](location)
     - [123 Elm Street](location)
     - [10:30 AM](time)
+    - name is [Huy](name)
+    - my number [0917181880](number)
+    - [03 Le Dinh Ly](location)
+    - [10:30 PM](time)
 - intent: human_handoff
   examples: |
     - Can I speak to anyone who can really help me?
@@ -1150,9 +1165,16 @@ nlu:
 - intent: deny
   examples: |
     - no, thanks
+    - no thanks
 - intent: bye
   examples: |
     - bye bye
+- intent: greet
+  examples: |
+    - hi
+- intent: affirm
+  examples: |
+    - yes
 - synonym: english
   examples: |
     - English

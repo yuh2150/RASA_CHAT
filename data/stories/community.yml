@@ -1,0 +1,7 @@
+version: "3.1"
+stories:
+
+- story: How can I contribute
+  steps:
+  - intent: ask_how_contribute
+  - action: utter_possibilities_to_contribute

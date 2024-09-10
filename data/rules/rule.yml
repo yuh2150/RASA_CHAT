@@ -21,3 +21,8 @@ rules:
   - active_loop: null
   - action: utter_ask_more_details
 
+- rule: ask time current 
+  steps:
+  - intent: inquire_time
+  - action: action_current_time
+

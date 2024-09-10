@@ -1,0 +1,13 @@
+version: "3.1"
+stories:
+
+- story: chitchat
+  steps:
+  - intent: canthelp
+  - action: utter_canthelp
+- story: greet + canthelp
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - intent: canthelp
+  - action: utter_canthelp
