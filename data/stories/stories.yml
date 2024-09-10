@@ -1,0 +1,142 @@
+version: "3.1"
+stories:
+- story: thanks
+  steps:
+  - intent: thank
+  - action: utter_noworries
+  - action: utter_anything_else
+- story: bye
+  steps:
+  - intent: bye
+  - action: utter_bye
+- story: greet
+  steps:
+  - or:
+    - intent: greet
+    - intent: enter_data
+      entities:
+      - name: akela
+  - action: action_greet_user
+- story: booking a ride
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - intent: book_a_ride
+  - action: utter_moreinformation
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - active_loop: null
+  # - action: action_submit_book_ride_form
+  - action: utter_ask_feedback
+  - intent: provide_feedback
+  # - action: action_tag_feedback
+  - action: utter_thumbsup
+  - action: utter_anything_else
+
+- story: neither options
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - intent: deny
+  - action: utter_nohelp
+
+# - story: neither --> sales
+#   steps:
+#   - intent: greet
+#   - action: action_greet_user
+#   - intent: deny
+#   - action: utter_nohelp
+#   - intent: contact_sales
+#   - action: utter_moreinformation
+#   - action: sales_form
+#   - active_loop: sales_form
+#   - active_loop: null
+#   - action: action_submit_sales_form
+#   - action: utter_ask_feedback
+#   - intent: feedback
+#   - action: action_tag_feedback
+#   - action: utter_thumbsup
+#   - action: utter_anything_else
+- story: anything else? - no
+  steps:
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_thumbsup
+- story: anything else?
+  steps:
+  - action: utter_anything_else
+  - intent: enter_data
+  - action: utter_not_sure
+- story: positive reaction
+  steps:
+  - intent: react_positive
+  - action: utter_react_positive
+- story: negative reaction
+  steps:
+  - intent: react_negative
+  - action: utter_react_negative
+- story: need help with a technical question
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - intent: need_help_broad
+  - action: utter_ask_more_details
+- story: interactive_story_1
+  steps:
+  - intent: book_a_ride
+  - action: utter_moreinformation
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - slot_was_set:
+    - requested_slot: person_name
+  - intent: enter_data
+    entities:
+    - name: Huy
+  - slot_was_set:
+    - person_name: Huy
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: number_contact
+  - intent: enter_data
+    entities:
+    - number: '0917159357'
+  - slot_was_set:
+    - number_contact: '0917159357'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: enter_data
+    entities:
+    - location: 271 Le Dinh Ly
+  - slot_was_set:
+    - pick_up_location: Đa Nang
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: destination_location
+  - intent: react_positive
+  - intent: enter_data
+  - intent: enter_data
+    entities:
+    - location: 123 Elm Street
+  - slot_was_set:
+    - destination_location: 123 Elm Street
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_time
+  - intent: enter_data
+    entities:
+    - time: 10:30 AM
+  - slot_was_set:
+    - pick_up_time: 10:30 AM
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_ask_feedback
+  - intent: provide_feedback
+  - action: utter_thumbsup
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_thumbsup
+  - intent: bye
+  - action: utter_bye

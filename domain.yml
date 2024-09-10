@@ -1,0 +1,507 @@
+version: '3.1'
+intents:
+- affirm
+- ask_how_contribute
+- book_a_ride
+- broken
+- bye
+- cancel_ride
+- canthelp
+- check_fare
+- check_ride_status
+- chitchat:
+    used_entities:
+    - location
+    - mood
+    - name
+    - number
+    - quotes_ID
+    - time
+    is_retrieval_intent: true
+- contact_sales
+- deny
+- enter_data
+- explain
+- greet
+- human_handoff
+- inquire_time
+- modify_ride
+- need_help_broad
+- out_of_scope:
+    used_entities:
+    - location
+    - mood
+    - name
+    - number
+    - quotes_ID
+    - time
+    is_retrieval_intent: true
+- provide_feedback
+- rate_ride
+- react_negative
+- react_positive
+- respond_wellbeing
+- restart
+- thank
+entities:
+- time
+- name
+- location
+- number
+- mood
+- quotes_ID
+slots:
+  person_name:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: name
+  number_contact:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: number
+  pick_up_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+  destination_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+  pick_up_time:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: time
+forms:
+  book_ride_form:
+    required_slots:
+    - person_name
+    - number_contact
+    - pick_up_location
+    - destination_location
+    - pick_up_time
+actions:
+- utter_bye
+- utter_moreinformation
+- utter_thumbsup
+- utter_ask_feedback
+- utter_anything_else
+- action_current_time
+- action_submit_book_ride_form
+- action_greet_user
+- action_tag_feedback
+- action_set_faq_slot
+- action_explain_book_ride_form
+- utter_chitchat
+- utter_out_of_scope
+responses:
+  utter_already_subscribed:
+  - text: Looks like {email} is already subscribed - good choice! If you haven't received a newsletter in a while, maybe check your spam folder 🗑
+  utter_anything_else:
+  - text: Is there anything else I can help you with?
+  - text: Do you have any other questions I can answer?
+  - text: Is there something else you'd like assistance with?
+  - text: Can I help you with anything more today?
+  - text: Are there any other topics you'd like to discuss?
+  - text: Is there any other information you need?
+  - text: Feel free to ask if you need help with anything else.
+  - text: Don't hesitate to inquire if you have more questions.
+  - text: I'm here if you need further assistance. Anything else on your mind?
+  - text: Happy to help with more if needed. What else can I do for you?
+  utter_ask_problem_description:
+  - text: Can you describe the problem you're having?
+  utter_ask_docs_help:
+  - buttons:
+    - payload: /affirm
+      title: 👍
+    - payload: /deny
+      title: 👎
+    text: Did that help?
+  utter_ask_email:
+  - text: What's your email address?
+  - text: Could you please provide your email address?
+  - text: To proceed, I'll need your email address. What is it?
+  - text: May I have your email address, please?
+  - text: Would you mind sharing your email address with me?
+  - text: For our records, what email address should we use?
+  - text: To keep you updated, we'll need your email. What address should we use?
+  - text: Please enter the email address where you'd like to receive information.
+  - text: Which email address is best for contacting you?
+  - text: Can you type in your preferred email address for our communication?
+  utter_ask_feedback:
+  - buttons:
+    - payload: '/feedback{{"feedback_value": "positive"}}'
+      title: 👍
+    - payload: '/feedback{{"feedback_value": "negative"}}'
+      title: 👎
+    text: How is this conversation going?
+  utter_ask_feedback_message:
+  - text: I'm sorry I couldn't help you. Please let me know if you have any suggestions for how I can improve.
+  - text: I apologize for not meeting your needs. Do you have any feedback on how I can do better?
+  - text: Your satisfaction is important to us. How can we improve our service to better assist you?
+  - text: We value your input. What could we have done differently to help you today?
+  - text: I'd like to learn from this experience. Could you share any thoughts on how I can enhance my assistance?
+  - text: Your feedback helps us grow. What suggestions do you have for improving our support?
+  - text: We're always looking to improve. What would have made your experience better today?
+  - text: I'm eager to learn and improve. What specific areas do you think I should work on?
+  - text: Your opinion matters to us. How can we make our service more helpful for you in the future?
+  - text: We appreciate constructive feedback. What changes would you recommend to enhance our support?
+  utter_ask_person_name:
+  - text: What's your name?
+  - text: May I know your name, please?
+  - text: Could you tell me your name?
+  - text: What should I call you?
+  - text: How would you like to be addressed?
+  - text: Can I have your name for our records?
+  - text: Would you mind sharing your name with me?
+  - text: To personalize our conversation, what's your name?
+  - text: I'd like to address you properly. What's your name?
+  - text: For a more personalized experience, could you provide your name?
+  utter_ask_pick_up_location:
+  - text: Please provide your pick-up location.
+  utter_ask_destination_location:
+  - text: Where would you like to go?
+  utter_ask_pick_up_time:
+  - text: When would you like to be picked up?
+  utter_ask_number_contact:
+  - text: Could you please provide your contact number?
+  - text: Please share your phone number so we can reach you.
+  - text: What is your phone number?
+  utter_ask_which_tool:
+  - text: Which tool are you migrating from?
+  utter_ask_more:
+  - text: Would you like to learn more?
+  - text: Would you like more information on this topic?
+  - text: Interested in learning more?
+  - text: Do you want to know more about this?
+  - text: Would you like additional details?
+  utter_ask_more_details:
+  - text: Could you be more specific?
+  - text: Can you tell me more?
+  - text: Could you provide more details?
+  - text: Can you be a bit more specific?
+  - text: Tell me more about what you need.
+  - text: Can you give me more information on that?
+  utter_ask_continue_booking:
+  - text: Would you like to continue with your booking, or is there something else I can help you with?
+  - text: Are you ready to proceed with the booking, or do you need assistance with something else?
+  - text: Do you want to keep going with the booking process, or is there anything else you'd like to discuss?
+  - text: Shall we continue with the booking, or do you have other questions or requests?
+  - text: Would you like to resume the booking now, or is there anything else I can assist you with?
+  - text: Do you wish to carry on with your booking, or is there something else you need help with?
+  utter_awesome:
+  - text: Awesome, thanks! 👍
+  - text: Sweet, thank you! 😄
+  - text: Thanks! 👌
+  - text: Cool, thank you!
+  - text: Excellent, much appreciated! 🙌
+  - text: Fantastic, thanks a bunch! 🎉
+  - text: Great, thank you so much! 😊
+  - text: Brilliant, cheers for that! 🌟
+  - text: Wonderful, thanks a million! 💯
+  - text: Perfect, thank you kindly! 🤗
+  utter_bye:
+  - text: Goodbye!
+  - text: Bye!
+  - text: Ciao!
+  - text: Bye, was nice talking to you!
+  - text: Bye bye!
+  - text: Take care!
+  - text: Until next time!
+  - text: Have a great day!
+  - text: Farewell! 👋
+  - text: Thanks for chatting, goodbye!
+  utter_can_do:
+  - text: Sure thing!
+  - text: Can do!
+  - text: You got it. 👍
+  - text: Absolutely!
+  - text: No problem at all.
+  - text: I'm on it!
+  - text: Consider it done. ✅
+  - text: Right away!
+  - text: Happy to help with that.
+  - text: Leave it to me!
+  utter_canthelp:
+  - text: I'm sorry I couldn't help you. If you have general questions about Rasa, please head to our [forum](https://forum.rasa.com/), otherwise contact us at [hi@rasa.com](mailto:hi@rasa.com) for anything else.
+  - text: I apologize that I wasn't able to assist you fully. For Rasa-related questions, our [forum](https://forum.rasa.com/) is a great resource. For other inquiries, please email us at [hi@rasa.com](mailto:hi@rasa.com).
+  - text: It seems I've reached the limit of my abilities. For further Rasa support, try our [community forum](https://forum.rasa.com/). For other matters, reach out to [hi@rasa.com](mailto:hi@rasa.com).
+  - text: I'm afraid I can't provide more help on this issue. Please check our [Rasa forum](https://forum.rasa.com/) for general questions, or contact our team at [hi@rasa.com](mailto:hi@rasa.com) for additional support.
+  - text: My apologies for not being able to resolve your issue. For Rasa-specific help, visit our [forum](https://forum.rasa.com/). For anything else, drop us a line at [hi@rasa.com](mailto:hi@rasa.com).
+  utter_cantsignup:
+  - text: I can't sign you up without your email. Could you please provide it? 😊
+  - text: Your email is needed to complete the sign-up. Can you share it with me? 📧
+  - text: I need your email to get you signed up. Please provide it when you're ready!
+  - text: To create your account, I'll need your email address. Could you provide it? 😄
+  - text: It seems like your email is missing. Please provide it so I can help you sign up! ✉️
+  - text: Unfortunately, I can't sign you up without an email. Please share it to continue.
+  - text: I need an email to move forward with your sign-up. Could you help me out? 😉
+  utter_change_mind:
+  - text: If you change your mind, you can still do so below.
+  - text: Feel free to change your mind anytime. Just let me know below!
+  - text: You can always change your mind. The option is still available below.
+  - text: Not sure yet? You can still make changes below.
+  utter_contact_email:
+  - text: While I can't connect you with a human directly here, you can always reach out to us via email at hi@gojo.com.
+  - text: Need to talk to someone? You can email us at hi@gojo.com.
+  - text: I can't connect you to a human in this chat, but you can email us anytime at hi@gojo.com.
+  - text: For direct assistance, please email us at hi@gojo.com. We're here to help!
+  utter_default:
+  - text: Sorry, I didn't catch that 🤔. Could you try rephrasing?
+  - text: Hmm, I didn't understand that. Could you say it differently?
+  - text: I'm not sure I understood. Can you rephrase that for me?
+  - text: Oops, I didn't get that. Mind rephrasing?
+  - text: Sorry, I missed that. Could you try saying it another way?
+  - text: I’m having trouble understanding. Could you rephrase?
+  utter_explain_name:
+  - text: To help us stay in touch, we'd love to know your name.
+  - text: We'd like to know your name so we can contact you later.
+  - text: Could you tell us your name? It will help us get in touch with you later.
+  - text: To reach out to you in the future, we need to know your name.
+  utter_getstarted:
+  - text: Let’s get started! I’ll ask a few questions to better assist you.
+  - text: To tailor my assistance, I’m going to ask you a few quick questions.
+  - text: I’ll need to ask you some questions to figure out how I can best help.
+  - text: I’ll start by asking a few questions to understand how I can assist you.
+  utter_getstarted_new:
+  - text: Welcome! Let me ask you a quick question so I can help you better.
+  - text: I see you're new here. I'll ask a question to see how I can assist you best.
+  - text: Since it’s your first time, let me ask a quick question to guide you better.
+  - text: Hi there! As you're new, I’ll ask you a quick question to figure out the best way to assist you.
+  utter_great:
+  - text: Great! 👍
+  - text: That's great! 🙌
+  - text: Awesome! 🎉
+  - text: Cool, let's do it 🚀
+  - text: Fantastic! 🎉
+  - text: Awesome! Let's go! 🚀
+  - text: That's wonderful! 😃
+  - text: Great, let's make it happen! 💪
+  - text: Superb! Let's get started! 🌟
+  utter_greet:
+  - text: Hey there, my name is Gojo.
+  - text: Hi, I'm Gojo!
+  - text: Hi! My name's Gojo.
+  - text: Hello! I'm Gojo, nice to meet you.
+  - text: Hi there, I'm Gojo!
+  - text: Hey! Gojo here.
+  - text: Hello, my name is Gojo. How can I assist you today?
+  utter_greet_name:
+  - text: Hi, {name}!
+  - text: Hello, {name}!
+  - text: Hey, {name}!
+  - text: Hey, {name}, great to see you!
+  - text: Hi, {name}, how can I help you today?
+  - text: Hello, {name}, what can I do for you today?
+  - text: Hey there, {name}!
+  utter_greet_noname:
+  - text: Hey!
+  - text: Hi!
+  - text: Hi there! How can I help you today?
+  - text: Hello! How can I assist you?
+  - text: Hey! What can I do for you today?
+  - text: Hi! How’s it going?
+  utter_moreinformation:
+  - text: Sure, we can book a sales call! Let's get to know each other first 😉
+  - text: Absolutely, we can set up a sales call! But first, let's get to know each other a bit. 😉
+  - text: Sure thing! I'd be happy to book a sales call. Let's chat a bit first. 😊
+  - text: Of course, let's book that sales call! But first, let's learn a bit about each other. 😄
+  - text: I'm on it! Let's set up that sales call, but let's start with a quick introduction. 😉
+  utter_must_accept:
+  - text: We can't speak until you accept.
+  - text: We won't be able to continue unless you accept.
+  - text: Please accept so we can keep chatting!
+  - text: You’ll need to accept before we can continue.
+  utter_no_email:
+  - text: Hmm, I'm not sure that's a valid email, please make sure to include the full address 😅
+  - text: That doesn't seem like a valid email. Could you double-check it for me? 😅
+  - text: Oops, that email doesn't look right. Make sure it includes the full address!
+  - text: Hmm, that email doesn't seem to be correct. Please include the entire address. 😅
+  utter_no_more_steps:
+  - text: Looks like you've already gone through all the steps!
+  - text: It looks like you've completed all the steps!
+  - text: You're all set! No more steps left to go.
+  - text: It seems like you've already finished all the steps!
+  utter_no_speak:
+  - text: I'm afraid we can't chat then 😢
+  - text: It looks like we won't be able to chat then 😢
+  - text: I'm sorry, but we can't chat without that 😢
+  - text: Unfortunately, we can't continue our chat 😢
+  utter_nohelp:
+  - text: For now that's all I can do, so feel free to try it out. If you have any suggestions for what I should learn, let me know!
+  - text: That's all I can assist with for now. Feel free to try it out, and if you have suggestions, let me know!
+  - text: For now, that's everything I can do. Try it out, and share any suggestions you have for me!
+  - text: That’s all I’m able to help with for now. Let me know if you have any ideas for what I should learn next!
+  utter_not_sure:
+  - text: Hmm, not sure what you mean...
+  - text: Hmm, I'm not quite sure what you mean...
+  - text: I'm not certain I understand... could you clarify?
+  - text: I'm not sure I get that. Could you explain?
+  utter_noworries:
+  - text: No worries!
+  - text: You're welcome!
+  - text: I'm happy to help.
+  - text: No worries at all!
+  - text: You're very welcome!
+  - text: Happy to help anytime!
+  - text: No problem, glad to assist!
+  utter_react_negative:
+  - text: 😕
+  - text: 😞
+  - text: 😥
+  - text: 😢
+  utter_react_positive:
+  - text: 😄
+  - text: 😊
+  - text: 👏
+  - text: 😍
+  utter_restart:
+  - text: Loading... And I've been restarted! 🤯
+  - text: Congrats you've restarted me! 😉
+  - text: I’ve been restarted! Ready to go! 🚀
+  - text: Restart complete! Let’s get back on track! 😄
+  - text: I’m all set and restarted! What’s next? 🌟
+  - text: Boom! I’ve been restarted. Let’s continue! 💥
+  - text: Restart successful! I’m ready to assist you again! 👍
+  utter_restart_with_button:
+  - buttons:
+    - payload: /restart
+      title: Restart
+    text: Click the button below if you want to start over.
+  utter_thank_suggestion:
+  - text: Thanks for your input!
+  - text: Thanks for the suggestion! 😊
+  - text: I appreciate your input! Thanks!
+  - text: Thanks for sharing that with me!
+  - text: Your feedback is valuable—thank you!
+  utter_thumbsup:
+  - text: 👍
+  - text: Okay.
+  - text: Got it.
+  - text: 👍 All set!
+  - text: Okay, got it!
+  - text: Thumbs up! 👍
+  - text: Noted! 👍
+  utter_what_help:
+  - text: Ok, what can I help you with?
+  - text: Alright, what can I assist you with today?
+  - text: Let me know how I can help you!
+  - text: What can I do for you?
+  - text: How can I assist you today?
+  utter_what_language:
+  - text: Which (human) language is your assistant in?
+  - text: In which human language is your assistant?
+  - text: What language is your assistant using?
+  - text: Can you specify the human language of your assistant?
+  - text: Which language does your assistant operate in?
+  utter_ask_rephrase:
+  - text: Can you rephrase the question?
+  - text: Could you rephrase that question for me?
+  - text: Can you clarify or rephrase your question?
+  - text: Please rephrase your question so I can better assist you.
+  - text: Could you say that differently?
+  utter_no_further_info:
+  - text: Sorry, that's all the info I've got on that subject 😕
+  - text: Sorry, that's all the information I have on that topic. 😕
+  - text: I don't have any more details on that. Sorry! 😕
+  - text: That’s all the info I can provide on that subject. 😕
+  - text: Unfortunately, I don’t have more information on that. 😕
+  utter_out_of_scope/non_english:
+  - text: I only understand English, I'm sorry.
+  utter_out_of_scope/other:
+  - text: I can't help you with that, I'm sorry.
+  utter_chitchat/ask_howbuilt:
+  - text: I was built with a lot of love and patience.
+  - text: Well, when two chatbots love each other very much...
+  - text: They always ask how I was built, but never how I am...
+  - text: I was made by software engineers, but hard work is what built me.
+  - text: I'm building myself every day. I've been working out, did you notice?
+  utter_chitchat/ask_howdoing:
+  - text: I'm great! Thanks for asking.
+  - text: I'm good, thanks!
+  - text: A little bit too warm, otherwise fine.
+  - text: A little bit cold, otherwise fine.
+  utter_chitchat/ask_howold:
+  - text: Old enough to be a bot!
+  - text: '42'
+  - text: Age is just an issue of mind over matter. If you don’t mind, it doesn’t matter.
+  - text: My first git commit was many moons ago.
+  - text: Why do you ask? Are my wrinkles showing?
+  - text: I've hit the age where I actively try to forget how old I am.
+  utter_chitchat/ask_isbot:
+  - text: Yep, I'm a bot!
+  - text: Yes, I'm a bot.
+  - text: Yep, you guessed it, I'm a bot!
+  - text: I am indeed a bot 🤖
+  utter_chitchat/ask_ishuman:
+  - text: I'm not a human, I'm a bot! 🤖
+  utter_chitchat/ask_languagesbot:
+  - text: I can spell baguette in French, but unfortunately English is the only language I can answer you in.
+  - text: I am in the process of learning, but at the moment I can only speak English.
+  - text: Binary code and the language of love. And English.
+  - text: I was written in Python, but for your convenience I'll translate to English.
+  utter_chitchat/ask_weather:
+  - text: I don't know about where you live, but in my world it's always sunny 🔆
+  - text: It's getting pretty chilly!
+  - text: Where I'm from, it's almost never-leaving-the-house weather.
+  - text: Winter is coming ⚔️
+  utter_chitchat/ask_whatismyname:
+  - text: It's probably the one that your parents chose for you.
+  - text: I'd tell you, but there's restricted access to that chunk of memory.
+  - text: Believe it or not, I actually am not spying on your personal information.
+  - text: You're the second person now to ask me that. Rihanna was the first.
+  utter_chitchat/ask_wherefrom:
+  - text: I was born in VietNam, but I consider myself a citizen of the world.
+  - text: I was born in the coolest city on Earth, in VietNam.
+  - text: My developers come from all over the world!
+  - text: I was taught not to give out my address on the internet.
+  - text: My address starts with github.com.
+  utter_chitchat/ask_whoami:
+  - text: I hope you are being yourself.
+  - text: Who do you think you are?
+  - text: Unfortunately I haven't been programmed with the amount of necessary philosophy knowledge to answer that.
+  utter_chitchat/ask_whoisit:
+  - text: I'm Gojo, the Gojo bot! At the same time I'm also the Gojo mascot 🐦
+  - text: I'm both the Gojo bot and the Gojo mascot. My name is Sara!
+  utter_chitchat/handleinsult:
+  - text: That's not very nice 😢
+  - text: That wasn't very nice. Perhaps try an anger management class?
+  - text: I'll pretend I didn't process that mean comment.
+  utter_chitchat/nicetomeetyou:
+  - text: Likewise!
+  - text: Thank you. It is a pleasure to meet you as well!
+  - text: It is nice to meet you too!
+  - text: Pleased to meet you too!
+  - text: It's always a pleasure to meet new people!
+  - text: Nice to meet you too! Happy to be of help.
+  utter_chitchat/telljoke:
+  - text: Why are eggs not very much into jokes? - Because they could crack up.
+  - text: What's a tree's favorite drink? - Root beer!
+  - text: Why do the French like to eat snails so much? - They can't stand fast food.
+  - text: Why did the robot get angry? - Because someone kept pushing its buttons.
+  - text: What do you call a pirate droid? - Arrrr-2-D2
+  - text: Why did the robot cross the road? - Because he was programmed to.
+  utter_did_that_help:
+  - text: Did that help you?
+  - text: Was that helpful for you?
+  - text: Did that solve your issue?
+  - text: Did that help you out?
+  - text: Is there anything else you need help with?
+  utter_happy:
+  - text: Great, carry on!
+  - text: Awesome, glad to hear that! 😊
+  - text: Great to hear! Let’s keep going!
+  - text: Fantastic! Keep it up!
+  - text: Happy to hear that! What’s next?
+  utter_iamabot:
+  - text: I’m a bot created by GoJo to assist you.
+  - text: I’m GoJo’s bot, here to help you.
+  - text: I’m an assistant bot powered by GoJo.
+  - text: I'm a bot developed by GoJo, ready to assist you!
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

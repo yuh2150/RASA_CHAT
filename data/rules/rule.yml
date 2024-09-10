@@ -1,0 +1,23 @@
+version: "3.1"
+rules:
+
+- rule: ask for more details
+  steps:
+  - intent: need_help_broad
+  - action: utter_ask_more_details
+
+- rule: anything else? - yes
+  steps:
+  - action: utter_anything_else
+  - intent: affirm
+  - action: utter_ask_more_details
+
+- rule: booking -> need_help_broad -> deactivate loop
+  condition:
+  - active_loop: book_ride_form
+  steps:
+  - intent: need_help_broad
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_ask_more_details
+
