@@ -35,6 +35,7 @@ nlu:
     - i want boook a ride
     - i want book a ride
     - [271 Nguyen Van Linh](location)
+    - [271 Nguyen Van Linh](location)
 - intent: cancel_ride
   examples: |
     - cancel ride
@@ -1079,6 +1080,11 @@ nlu:
     - my number [0917181880](number)
     - [03 Le Dinh Ly](location)
     - [10:30 PM](time)
+    - I want [10:30 PM](time)
+    - my name is [Huy](name)
+    - number is [0901159357](number)
+    - [470 Tran Dai Nghia](location)
+    - [10:00 AM](time)
 - intent: human_handoff
   examples: |
     - Can I speak to anyone who can really help me?

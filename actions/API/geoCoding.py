@@ -19,4 +19,3 @@ class GeoCodingAPI:
                 return {"error": f"Error: {response.status_code}"}
         except requests.RequestException as e:
             return {"error": str(e)}
-

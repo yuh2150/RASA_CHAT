@@ -22,6 +22,37 @@ from actions.API.getKey import OAuthClient
 from actions.API.getQuotes import QuotesAPI
 
 
+# quotes = []
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI2MTM2MTI3LCJleHAiOjE3MjYxMzk3MjcsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.mIlZRKfAvgY-w1dwrw8lhceFMFml3j8sIFx5ltsJkzs"
+
+class Quote:
+    def __init__(self, quote_id, expires_at, vehicle_type, price_value, price_currency, luggage, passengers, provider_name, provider_phone):
+        self.quote_id = quote_id
+        self.expires_at = expires_at
+        self.vehicle_type = vehicle_type
+        self.price_value = price_value
+        self.price_currency = price_currency
+        self.luggage = luggage
+        self.passengers = passengers
+        self.provider_name = provider_name
+        self.provider_phone = provider_phone
+    def to_dict(self):
+        return {
+            "quote_id": self.quote_id,
+            "expires_at": self.expires_at,
+            "vehicle_type": self.vehicle_type,
+            "price_value": self.price_value,
+            "price_currency": self.price_currency,
+            "luggage": self.luggage,
+            "passengers": self.passengers,
+            "provider_name": self.provider_name,
+            "provider_phone": self.provider_phone
+        }
+    def __repr__(self):
+        return (f"Quote(quote_id={self.quote_id}, expires_at={self.expires_at}, vehicle_type={self.vehicle_type}, "
+                f"price_value={self.price_value}, price_currency={self.price_currency}, luggage={self.luggage}, "
+                f"passengers={self.passengers}, provider_name={self.provider_name}, provider_phone={self.provider_phone})")
+
 class ActionCurrentTime(Action):
     def name(self) -> Text:
         return "action_current_time"
@@ -67,41 +98,117 @@ class ActionGreetUser(Action):
                 return [SlotSet("shown_privacy", True)]
         return []
 
-# class ActionSubmitBookForm(Action):
+class ActionSubmitBookFormToGetQuotes(Action):
+    def name(self) -> Text:
+        return "action_submit_book_ride_form_to_get_quotes"
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        """Once we have all the information, attempt to add it to the
+        Google Drive database"""
+
+        import datetime
+
+        pick_up_time = tracker.get_slot("pick_up_time")
+        pick_up_location = tracker.get_slot("pick_up_location")
+        destination_location = tracker.get_slot("destination_location")
+        person_name = tracker.get_slot("person_name")
+        number_contact = tracker.get_slot("number_contact")
+        # date = datetime.datetime.now().strftime("%d/%m/%Y")
+
+        book_info = [person_name, number_contact,pick_up_location,destination_location,pick_up_time]
+        
+        geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")    
+        quotesAPI = QuotesAPI("https://dispatch.local.goodjourney.io/api/demand/v1/quotes",token=token)
+        
+        # geoCoding_pickup = geoCodingAPI.get_geocoding(pick_up_location)
+        # geoCoding_destination = geoCodingAPI.get_geocoding(destination_location)
+        
+        pickup_datetime = "2024-09-12T12:06:14Z"
+        pickup_coords = { "latitude": 16.059052,"longitude": 108.2112656,}
+        destination_coords = { "latitude": 16.0595717,"longitude": 108.2111016,}
+        # pickup_coords = { "latitude": geoCoding_pickup['results'][0]['geometry']['location']['lat'],"longitude": geoCoding_pickup['results'][0]['geometry']['location']['lng'],}
+        # destination_coords = { "latitude": geoCoding_destination['results'][0]['geometry']['location']['lat'],"longitude": geoCoding_destination['results'][0]['geometry']['location']['lng'],}
+        
+        
+        quotes_data = quotesAPI.get_quotes(pickup_datetime, pickup_coords, destination_coords)
+
+        return [SlotSet("quotes", quotes_data)]
+    
+class ActionDisplaySelectQuotes(Action):
+    def name(self) -> Text:
+        return "action_display_select_quotes"
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        buttons = []
+        quotes_data = tracker.get_slot("quotes")
+        quotes = []
+        for item in quotes_data:
+            quote = Quote(
+            quote_id=item['quoteId'],
+            expires_at=item['expiresAt'],
+            vehicle_type=item['vehicleType'],
+            price_value=item['price']['value'],
+            price_currency=item['price']['currency'],
+            luggage=item['luggage'],
+            passengers=item['passengers'],
+            provider_name=item['provider']['name'],
+            provider_phone=item['provider']['phone']
+            )
+            quotes.append(quote)
+
+        for quote in quotes:
+            buttons.append({
+                "title": f"{quote.vehicle_type} - {quote.price_value} {quote.price_currency}",
+                "payload": f"/choose_quote{{\"quoteId\": \"{quote.quote_id}\"}}"
+            })
+        dispatcher.utter_message(buttons = buttons)
+        return []
+# class ActionChooseQuote(FormAction):
 #     def name(self) -> Text:
-#         return "action_submit_book_ride_form"
-#     def run(
-#         self,
-#         dispatcher: CollectingDispatcher,
-#         tracker: Tracker,
-#         domain: DomainDict,
-#     ) -> List[EventType]:
-#         """Once we have all the information, attempt to add it to the
-#         Google Drive database"""
+#         return "action_choose_quote"
 
-#         import datetime
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         quote_id = tracker.get_slot("quoteId")
 
-#         budget = tracker.get_slot("budget")
-#         company = tracker.get_slot("company")
-#         email = tracker.get_slot("business_email")
-#         job_function = tracker.get_slot("job_function")
-#         person_name = tracker.get_slot("person_name")
-#         use_case = tracker.get_slot("use_case")
-#         date = datetime.datetime.now().strftime("%d/%m/%Y")
-
-#         sales_info = [company, use_case, budget, date, person_name, job_function, email]
-
-#         try:
-#             gdrive = GDriveService()
-#             gdrive.append_row(
-#                 gdrive.SALES_SPREADSHEET_NAME, gdrive.SALES_WORKSHEET_NAME, sales_info
-#             )
-#             dispatcher.utter_message(template="utter_confirm_salesrequest")
+#         if not quote_id:
+#             dispatcher.utter_message(text="No quote selected.")
 #             return []
-#         except Exception as e:
-#             logger.error(
-#                 f"Failed to write data to gdocs. Error: {e.message}",
-#                 exc_info=True,
-#             )
-#             dispatcher.utter_message(template="utter_salesrequest_failed")
-#             return []    
+
+#         # Optionally, set a slot with the selected quote ID
+#         return [SlotSet("quoteId_value", quote_id)]
+    
+class ActionPerformBookingRide(Action):
+    def name(self) -> Text:
+        return "action_perform_booking_ride"
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,) -> List[EventType]:
+        
+        bookingAPI = BookingAPI("https://dispatch.local.goodjourney.io/api/demand",token=token)
+        quote_id = tracker.get_slot("quoteId")
+        person_name = tracker.get_slot("person_name")
+        number_contact = tracker.get_slot("number_contact")
+        
+        passenger_info = {
+            "title": "Mr",
+            "phone": number_contact,
+            "firstName": person_name,
+            "lastName": ""
+        }
+
+        # Create booking request
+        response = bookingAPI.create_booking(
+            quote_id=quote_id,
+            passenger_info=passenger_info
+        )
+        # dispatcher.utter_message(text=response)
+        return []
+

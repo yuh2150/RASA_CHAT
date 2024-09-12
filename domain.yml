@@ -15,9 +15,11 @@ intents:
     - mood
     - name
     - number
-    - quotes_ID
+    - quoteId
+    - quoteId_value
     - time
     is_retrieval_intent: true
+- choose_quote
 - contact_sales
 - deny
 - enter_data
@@ -33,7 +35,8 @@ intents:
     - mood
     - name
     - number
-    - quotes_ID
+    - quoteId
+    - quoteId_value
     - time
     is_retrieval_intent: true
 - provide_feedback
@@ -44,14 +47,24 @@ intents:
 - restart
 - thank
 entities:
-- name
-- location
-- number
+- quoteId
 - time
+- number
+- location
+- name
 - mood
-- quotes_ID
+- quoteId_value
 slots:
   shown_privacy:
+    type: text
+    mappings:
+    - type: custom
+  quoteId:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: quoteId
+  quotes:
     type: text
     mappings:
     - type: custom
@@ -89,6 +102,8 @@ forms:
     - destination_location
     - pick_up_time
 actions:
+- action_submit_book_ride_form_to_get_quotes
+- action_display_select_quotes
 - utter_bye
 - utter_ask_continue_booking
 - utter_what_help
@@ -100,12 +115,12 @@ actions:
 - utter_ask_feedback
 - utter_ask_pick_up_location
 - utter_thumbsup
-- action_submit_book_ride_form
 - action_tag_feedback
 - action_set_faq_slot
 - action_explain_book_ride_form
 - utter_chitchat
 - utter_out_of_scope
+- action_perform_booking_ride
 responses:
   utter_already_subscribed:
   - text: Looks like {email} is already subscribed - good choice! If you haven't received a newsletter in a while, maybe check your spam folder 🗑

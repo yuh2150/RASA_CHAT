@@ -5,7 +5,6 @@ rules:
 - rule: activate booking form
   steps:
   - intent: book_a_ride
-  - action: utter_moreinformation
   - action: book_ride_form
   - active_loop: book_ride_form
 
@@ -14,8 +13,10 @@ rules:
   - active_loop: book_ride_form
   steps:
   - active_loop: null
-  - action: action_submit_book_ride_form
-  - action: utter_ask_feedback_message
+  - action: action_submit_book_ride_form_to_get_quotes
+  - action: action_display_select_quotes
+  # - action: action_perform_booking_ride
+  # - action: utter_ask_feedback
   
 - rule: continue booking form
   condition:
@@ -25,8 +26,10 @@ rules:
   - intent: affirm
   - action: book_ride_form
   - active_loop: null
-  - action: action_submit_book_ride_form
-  - action: utter_ask_feedback
+  - action: action_submit_book_ride_form_to_get_quotes
+  - action: action_display_select_quotes
+  # - action: action_perform_booking_ride
+  # - action: utter_ask_feedback
 
 - rule: don't continue booking form
   condition:
