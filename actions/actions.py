@@ -4,7 +4,7 @@ import json
 import pytz
 
 from typing import Any, Dict, List, Text, Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 from rasa_sdk import Action, Tracker
 from rasa_sdk.types import DomainDict
 from rasa_sdk.forms import FormValidationAction
@@ -23,7 +23,7 @@ from actions.API.getQuotes import QuotesAPI
 
 
 # quotes = []
-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI2MTM2MTI3LCJleHAiOjE3MjYxMzk3MjcsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.mIlZRKfAvgY-w1dwrw8lhceFMFml3j8sIFx5ltsJkzs"
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI2NDY3Njc3LCJleHAiOjE3MjY0NzEyNzcsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.22uQCL9Z-pAJqP2tf36UbQvEvjdhkYqhnR4AtjC3GpM"
 
 class Quote:
     def __init__(self, quote_id, expires_at, vehicle_type, price_value, price_currency, luggage, passengers, provider_name, provider_phone):
@@ -107,10 +107,6 @@ class ActionSubmitBookFormToGetQuotes(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[EventType]:
-        """Once we have all the information, attempt to add it to the
-        Google Drive database"""
-
-        import datetime
 
         pick_up_time = tracker.get_slot("pick_up_time")
         pick_up_location = tracker.get_slot("pick_up_location")
@@ -124,14 +120,26 @@ class ActionSubmitBookFormToGetQuotes(Action):
         geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")    
         quotesAPI = QuotesAPI("https://dispatch.local.goodjourney.io/api/demand/v1/quotes",token=token)
         
-        # geoCoding_pickup = geoCodingAPI.get_geocoding(pick_up_location)
-        # geoCoding_destination = geoCodingAPI.get_geocoding(destination_location)
+        geoCoding_pickup = geoCodingAPI.get_geocoding(pick_up_location + ", Da Nang" )
+        geoCoding_destination = geoCodingAPI.get_geocoding(destination_location + ", Da Nang")
+        now_utc = datetime.now(pytz.utc)
+
+        # Format the time in ISO 8601 format
+        current_time_iso = now_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # Parse the current ISO 8601 time string back to a datetime object with UTC timezone
+        current_time_dt = datetime.strptime(current_time_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc)
+
+        # Add 7 hours (GMT+7)
+        new_dt = current_time_dt + timedelta(hours=7)
+
+        # Format the new datetime object back to ISO 8601 format
+        pickup_datetime = new_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
         
-        pickup_datetime = "2024-09-12T12:06:14Z"
-        pickup_coords = { "latitude": 16.059052,"longitude": 108.2112656,}
-        destination_coords = { "latitude": 16.0595717,"longitude": 108.2111016,}
-        # pickup_coords = { "latitude": geoCoding_pickup['results'][0]['geometry']['location']['lat'],"longitude": geoCoding_pickup['results'][0]['geometry']['location']['lng'],}
-        # destination_coords = { "latitude": geoCoding_destination['results'][0]['geometry']['location']['lat'],"longitude": geoCoding_destination['results'][0]['geometry']['location']['lng'],}
+        # pickup_coords = { "latitude": 16.059052,"longitude": 108.2112656,}
+        # destination_coords = { "latitude": 16.0595717,"longitude": 108.2111016,}
+        pickup_coords = { "latitude": float(geoCoding_pickup['results'][0]['geometry']['location']['lat']),"longitude": float(geoCoding_pickup['results'][0]['geometry']['location']['lng']),}
+        destination_coords = { "latitude": float(geoCoding_destination['results'][0]['geometry']['location']['lat']),"longitude": float(geoCoding_destination['results'][0]['geometry']['location']['lng']),}
         
         
         quotes_data = quotesAPI.get_quotes(pickup_datetime, pickup_coords, destination_coords)
@@ -144,7 +152,6 @@ class ActionDisplaySelectQuotes(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         buttons = []
         quotes_data = tracker.get_slot("quotes")
         quotes = []
@@ -169,21 +176,6 @@ class ActionDisplaySelectQuotes(Action):
             })
         dispatcher.utter_message(buttons = buttons)
         return []
-# class ActionChooseQuote(FormAction):
-#     def name(self) -> Text:
-#         return "action_choose_quote"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#         quote_id = tracker.get_slot("quoteId")
-
-#         if not quote_id:
-#             dispatcher.utter_message(text="No quote selected.")
-#             return []
-
-#         # Optionally, set a slot with the selected quote ID
-#         return [SlotSet("quoteId_value", quote_id)]
     
 class ActionPerformBookingRide(Action):
     def name(self) -> Text:
@@ -192,7 +184,7 @@ class ActionPerformBookingRide(Action):
             tracker: Tracker,
             domain: DomainDict,) -> List[EventType]:
         
-        bookingAPI = BookingAPI("https://dispatch.local.goodjourney.io/api/demand",token=token)
+        bookingAPI = BookingAPI("https://dispatch.local.goodjourney.io/api/demand/v1/bookings",token=token)
         quote_id = tracker.get_slot("quoteId")
         person_name = tracker.get_slot("person_name")
         number_contact = tracker.get_slot("number_contact")
@@ -209,6 +201,8 @@ class ActionPerformBookingRide(Action):
             quote_id=quote_id,
             passenger_info=passenger_info
         )
+        
+        dispatcher.utter_message(response.get('status'))
         # dispatcher.utter_message(text=response)
         return []
 

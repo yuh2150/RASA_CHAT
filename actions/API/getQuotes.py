@@ -1,6 +1,10 @@
 import requests
 import json
 
+# from geoCoding import GeoCodingAPI
+# import pytz
+# from datetime import datetime, timedelta
+
 class QuotesAPI:
     def __init__(self, base_url, token):
         self.base_url = base_url
@@ -47,40 +51,35 @@ class Quote:
         return (f"Quote(quote_id={self.quote_id}, expires_at={self.expires_at}, vehicle_type={self.vehicle_type}, "
                 f"price_value={self.price_value}, price_currency={self.price_currency}, luggage={self.luggage}, "
                 f"passengers={self.passengers}, provider_name={self.provider_name}, provider_phone={self.provider_phone})")
-# Example usage
-if __name__ == "__main__":
-    api = QuotesAPI(
-        base_url="https://dispatch.local.goodjourney.io/api/demand/v1/quotes",
-        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI2MTI3OTM0LCJleHAiOjE3MjYxMzE1MzQsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.KvZEvG5yeAX9zMTA2be6SHrGdS_CpnFamCUnGU0rtfc"  # Replace with your token
-    )
+# # Example usage
+# if __name__ == "__main__":
+#     token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI2NDU4MTg2LCJleHAiOjE3MjY0NjE3ODYsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.8ahaXoPK6ahLn0xI-rH36txWCiluwJLMxGmX8B_atcM"
     
-    pickup_datetime = "2024-10-12T15:06:14Z"
-    pickup_coords = { "latitude": 16.059058,"longitude": 108.211266,}
-    destination_coords = { "latitude": 16.0595717,"longitude": 108.2111016,}
+#     geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")    
+#     quotesAPI = QuotesAPI("https://dispatch.local.goodjourney.io/api/demand/v1/quotes",token=token)
     
-    # Call the API
-    result = api.get_quotes(pickup_datetime, pickup_coords, destination_coords)
+#     geoCoding_pickup = geoCodingAPI.get_geocoding("271 Nguyen Van Linh" + ", Da Nang" )
+#     geoCoding_destination = geoCodingAPI.get_geocoding("470 Tran Dai Nghia" + ", Da Nang")
+#     now_utc = datetime.now(pytz.utc)
 
-    # Assuming result is now a list of dictionaries
-    quotes = []
-    for item in result:
-        # Ensure item is a dictionary
-        quote = Quote(
-            quote_id=item['quoteId'],
-            expires_at=item['expiresAt'],
-            vehicle_type=item['vehicleType'],
-            price_value=item['price']['value'],
-            price_currency=item['price']['currency'],
-            luggage=item['luggage'],
-            passengers=item['passengers'],
-            provider_name=item['provider']['name'],
-            provider_phone=item['provider']['phone']
-        )
-        quotes.append(quote)
+#     # Format the time in ISO 8601 format
+#     current_time_iso = now_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
 
+#     # Parse the current ISO 8601 time string back to a datetime object with UTC timezone
+#     current_time_dt = datetime.strptime(current_time_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc)
 
-    # Print the result
-    for q in quotes:
-        print(q)
+#     # Add 7 hours (GMT+7)
+#     new_dt = current_time_dt + timedelta(hours=7)
 
-    print(result)
+#     # Format the new datetime object back to ISO 8601 format
+#     pickup_datetime = new_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+#     # pickup_coords = { "latitude": 16.059052,"longitude": 108.2112656,}
+#     # destination_coords = { "latitude": 16.0595717,"longitude": 108.2111016,}
+#     pickup_coords = { "latitude": float(geoCoding_pickup['results'][0]['geometry']['location']['lat']),"longitude": float(geoCoding_pickup['results'][0]['geometry']['location']['lng']),}
+#     destination_coords = { "latitude": float(geoCoding_destination['results'][0]['geometry']['location']['lat']),"longitude": float(geoCoding_destination['results'][0]['geometry']['location']['lng']),}
+    
+    
+#     quotes_data = quotesAPI.get_quotes(pickup_datetime, pickup_coords, destination_coords)
+    
+    # print (quotes_data)

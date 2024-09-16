@@ -100,14 +100,13 @@ forms:
     - number_contact
     - pick_up_location
     - destination_location
-    - pick_up_time
 actions:
+- action_greet_user
 - action_submit_book_ride_form_to_get_quotes
 - action_display_select_quotes
 - utter_bye
 - utter_ask_continue_booking
 - utter_what_help
-- action_greet_user
 - utter_moreinformation
 - action_current_time
 - utter_awesome

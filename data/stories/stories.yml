@@ -28,7 +28,7 @@ stories:
 #   - action: action_submit_book_ride_form_to_get_quotes
 #   - action: action_display_select_quotes
 #   - action: action_perform_booking_ride
-#   - action: utter_ask_feedback
+#   - action: utter_ask_feedback_message
 #   - intent: provide_feedback
 #   # - action: action_tag_feedback
 #   - action: utter_thumbsup
@@ -41,23 +41,6 @@ stories:
   - intent: deny
   - action: utter_nohelp
 
-# - story: neither --> sales
-#   steps:
-#   - intent: greet
-#   - action: action_greet_user
-#   - intent: deny
-#   - action: utter_nohelp
-#   - intent: contact_sales
-#   - action: utter_moreinformation
-#   - action: sales_form
-#   - active_loop: sales_form
-#   - active_loop: null
-#   - action: action_submit_sales_form
-#   - action: utter_ask_feedback
-#   - intent: feedback
-#   - action: action_tag_feedback
-#   - action: utter_thumbsup
-#   - action: utter_anything_else
 - story: anything else? - no
   steps:
   - action: utter_anything_else
@@ -82,140 +65,16 @@ stories:
   - action: action_greet_user
   - intent: need_help_broad
   - action: utter_ask_more_details
-# - story: interactive_story_1
-#   steps:
-#   - action: book_ride_form
-#   - active_loop: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: person_name
-#   - intent: enter_data
-#     entities:
-#     - name: Huy
-#   - slot_was_set:
-#     - person_name: Huy
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: number_contact
-#   - intent: enter_data
-#     entities:
-#     - number: '0917159357'
-#   - slot_was_set:
-#     - number_contact: '0917159357'
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: pick_up_location
-#   - intent: enter_data
-#     entities:
-#     - location: 271 Le Dinh Ly
-#   - slot_was_set:
-#     - pick_up_location: Đa Nang
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: destination_location
-#   - intent: react_positive
-#   - intent: enter_data
-#   - intent: enter_data
-#     entities:
-#     - location: 123 Elm Street
-#   - slot_was_set:
-#     - destination_location: 123 Elm Street
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: pick_up_time
-#   - intent: enter_data
-#     entities:
-#     - time: 10:30 AM
-#   - slot_was_set:
-#     - pick_up_time: 10:30 AM
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: null
-#   - active_loop: null
-#   - action: action_submit_book_ride_form_to_get_quotes
-#   - action: action_display_select_quotes
-#   - action: action_perform_booking_ride
-#   - action: utter_ask_feedback
-#   - intent: provide_feedback
-#   - action: utter_thumbsup
-#   - action: utter_anything_else
-#   - intent: deny
-#   - action: utter_thumbsup
-#   - intent: bye
-#   - action: utter_bye
 
-# - story: interactive_story_2
-#   steps:
-#   - intent: greet
-#   - action: action_greet_user
-#   - slot_was_set:
-#     - shown_privacy: true
-#   - action: utter_what_help
-#   - intent: book_a_ride
-#   - action: utter_moreinformation
-#   - action: book_ride_form
-#   - active_loop: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: person_name
-#   - intent: enter_data
-#     entities:
-#     - name: Huy
-#   - slot_was_set:
-#     - person_name: Huy
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: number_contact
-#   - intent: enter_data
-#     entities:
-#     - number: '0917181880'
-#   - slot_was_set:
-#     - number_contact: '0917181880'
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: pick_up_location
-#   - intent: inquire_time
-#   - action: action_current_time
-#   - action: utter_ask_continue_booking
-#   - intent: affirm
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: pick_up_location
-#   - intent: enter_data
-#     entities:
-#     - location: 271 Nguyen Van Linh
-#   - slot_was_set:
-#     - pick_up_location: 271 Nguyen Van Linh
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: destination_location
-#   - intent: enter_data
-#     entities:
-#     - location: 03 Le Dinh Ly
-#   - slot_was_set:
-#     - destination_location: 03 Le Dinh Ly
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: pick_up_time
-#   - intent: enter_data
-#     entities:
-#     - time: 10:30 PM
-#   - slot_was_set:
-#     - pick_up_time: 10:30 PM
-#   - action: book_ride_form
-#   - slot_was_set:
-#     - requested_slot: null
-#   - active_loop: null
-#   - action: action_submit_book_ride_form
-#   - action: utter_ask_feedback
-#   - intent: provide_feedback
-#   - action: utter_awesome
-#   - action: utter_anything_else
-#   - intent: deny
-#   - action: utter_bye
-#   - action: action_restart
-
-- story: interactive_story_3
+- story: interactive_story_1
   steps:
+  - intent: greet
+  - action: action_greet_user
+  - slot_was_set:
+    - shown_privacy: true
+  - action: utter_what_help
   - intent: book_a_ride
+  - action: utter_moreinformation
   - action: book_ride_form
   - active_loop: book_ride_form
   - slot_was_set:
@@ -230,9 +89,16 @@ stories:
     - requested_slot: number_contact
   - intent: enter_data
     entities:
-    - number: '0901159357'
+    - number: '0917181880'
   - slot_was_set:
-    - number_contact: '0901159357'
+    - number_contact: '0917181880'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: inquire_time
+  - action: action_current_time
+  - action: utter_ask_continue_booking
+  - intent: affirm
   - action: book_ride_form
   - slot_was_set:
     - requested_slot: pick_up_location
@@ -249,14 +115,14 @@ stories:
     - location: 470 Tran Dai Nghia
   - slot_was_set:
     - destination_location: 470 Tran Dai Nghia
-  - action: book_ride_form
-  - slot_was_set:
-    - requested_slot: pick_up_time
-  - intent: enter_data
-    entities:
-    - time: 10:00 AM
-  - slot_was_set:
-    - pick_up_time: 10:00 AM
+  # - action: book_ride_form
+  # - slot_was_set:
+  #   - requested_slot: pick_up_time
+  # - intent: enter_data
+  #   entities:
+  #   - time: 10:00 AM
+  # - slot_was_set:
+  #   - pick_up_time: 10:00 AM
   - action: book_ride_form
   - slot_was_set:
     - requested_slot: null
@@ -343,3 +209,278 @@ stories:
   - slot_was_set:
     - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
   - action: action_perform_booking_ride
+
+- story: interactive_story_3
+  steps:
+  - intent: book_a_ride
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - slot_was_set:
+    - requested_slot: person_name
+  - intent: enter_data
+    entities:
+    - name: Huy
+  - slot_was_set:
+    - person_name: Huy
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: number_contact
+  - intent: enter_data
+    entities:
+    - number: '0901159357'
+  - slot_was_set:
+    - number_contact: '0901159357'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: book_a_ride
+    entities:
+    - location: 271 Nguyen Van Linh
+  - slot_was_set:
+    - pick_up_location: 271 Nguyen Van Linh
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: destination_location
+  - intent: enter_data
+    entities:
+    - location: 470 Tran Dai Nghia
+  - slot_was_set:
+    - destination_location: 470 Tran Dai Nghia
+  # - action: book_ride_form
+  # - slot_was_set:
+  #   - requested_slot: pick_up_time
+  # - intent: enter_data
+  #   entities:
+  #   - time: 10:00 AM
+  # - slot_was_set:
+  #   - pick_up_time: 10:00 AM
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_book_ride_form_to_get_quotes
+  - slot_was_set:
+    - quotes:
+      - quoteId: 89c35175-31d9-4d48-8c21-ed2f054e01f4
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: Sans véhicule
+        price:
+          value: 46.75
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: MOTE
+        price:
+          value: 16.15
+          currency: CAD
+        luggage: 0
+        passengers: 0
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: c58f6d8e-4d46-4c2e-870e-f49b002c9645
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: NewRegular
+        price:
+          value: 16.15
+          currency: CAD
+        luggage: 0
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: a531d758-4b90-4076-acdf-b90d723298c7
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: Cargo +2 (20m3)
+        price:
+          value: 43.75
+          currency: CAD
+        luggage: 6
+        passengers: 7
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 7ce021a8-ed12-45c5-8cb6-10e7c9743956
+        expiresAt: '2024-09-12T11:57:17.764Z'
+        vehicleType: Electric- كهرباء
+        price:
+          value: 46.75
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 9c04a3fa-1aa4-40ed-aefa-1ccf1e8f7450
+        expiresAt: '2024-09-12T11:57:17.764Z'
+        vehicleType: Honda SH 135
+        price:
+          value: 43.75
+          currency: CAD
+        luggage: 1
+        passengers: 2
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+  - action: action_display_select_quotes
+  - intent: choose_quote
+    entities:
+    - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
+  - slot_was_set:
+    - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
+  - action: action_perform_booking_ride
+  - action: utter_ask_feedback_message
+  - intent: provide_feedback
+  - action: utter_awesome
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_bye
+  - action: action_restart
+
+- story: interactive_story_2
+  steps:
+  - intent: book_a_ride
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - slot_was_set:
+    - requested_slot: person_name
+  - intent: enter_data
+    entities:
+    - name: Huy
+  - slot_was_set:
+    - person_name: Huy
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: number_contact
+  - intent: enter_data
+    entities:
+    - number: '0917181880'
+  - slot_was_set:
+    - number_contact: '0917181880'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: book_a_ride
+    entities:
+    - location: 271 Nguyen Van Linh
+  - slot_was_set:
+    - pick_up_location: 271 Nguyen Van Linh
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: destination_location
+  - intent: enter_data
+    entities:
+    - location: 470 Tran Dai Nghia
+  - slot_was_set:
+    - destination_location: 470 Tran Dai Nghia
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_book_ride_form_to_get_quotes
+  - slot_was_set:
+    - quotes:
+      - quoteId: 89c35175-31d9-4d48-8c21-ed2f054e01f4
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: Sans véhicule
+        price:
+          value: 46.75
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: MOTE
+        price:
+          value: 16.15
+          currency: CAD
+        luggage: 0
+        passengers: 0
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: c58f6d8e-4d46-4c2e-870e-f49b002c9645
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: NewRegular
+        price:
+          value: 16.15
+          currency: CAD
+        luggage: 0
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: a531d758-4b90-4076-acdf-b90d723298c7
+        expiresAt: '2024-09-12T11:57:17.763Z'
+        vehicleType: Cargo +2 (20m3)
+        price:
+          value: 43.75
+          currency: CAD
+        luggage: 6
+        passengers: 7
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 7ce021a8-ed12-45c5-8cb6-10e7c9743956
+        expiresAt: '2024-09-12T11:57:17.764Z'
+        vehicleType: Electric- كهرباء
+        price:
+          value: 46.75
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 9c04a3fa-1aa4-40ed-aefa-1ccf1e8f7450
+        expiresAt: '2024-09-12T11:57:17.764Z'
+        vehicleType: Honda SH 135
+        price:
+          value: 43.75
+          currency: CAD
+        luggage: 1
+        passengers: 2
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+  - action: action_display_select_quotes
+  - intent: choose_quote
+    entities:
+    - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
+  - slot_was_set:
+    - quoteId: 90992477-ea98-41b7-a022-fad1d56ae2fa
+  - action: action_perform_booking_ride
+  - action: utter_ask_feedback_message
+  - intent: provide_feedback
+  - action: utter_awesome
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_bye
+  - action: action_restart
+- story: interactive_story_4
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - slot_was_set:
+    - shown_privacy: true
+
