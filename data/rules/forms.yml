@@ -8,14 +8,17 @@ rules:
   - action: book_ride_form
   - active_loop: book_ride_form
   - active_loop: null
-  - action: action_submit_book_ride_form_to_get_quotes
-  - action: action_display_select_quotes
+  - action: action_geocoding
+  - action: action_ask_confirm_info
+  # - action: action_listen
+  # - action: action_submit_book_ride_form_to_get_quotes
+  # - action: action_display_select_quotes
 
 - rule: perform booking
   steps:
   - intent: choose_quote
   - action:  action_perform_booking_ride
-  - action: utter_ask_feedback
+
 # - rule: deactivate booking form
 #   condition:
 #   - active_loop: book_ride_form
@@ -80,3 +83,28 @@ rules:
   - intent: out_of_scope
   - action: utter_out_of_scope
   - action: utter_ask_continue_booking
+
+- rule: change name
+  steps:
+    - intent: change_name
+    - action: utter_ask_change_name
+    - action: action_change_name
+
+- rule: change phone number
+  steps:
+    - intent: change_phone
+    - action: utter_ask_change_phone
+    - action: action_change_phone
+
+- rule: change pick up location
+  steps:
+    - intent: change_pick_up_location
+    - action: utter_ask_change_pickup
+    - action: action_change_pick_up_location
+
+- rule: change destination location
+  steps:
+    - intent: change_destination_location
+    - action: utter_ask_change_destination
+    - action: action_change_destination_location
+  

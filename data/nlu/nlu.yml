@@ -29,12 +29,17 @@ nlu:
     - I need a ride to my destination
     - I want to ride to my destination
     - I need a ride to work
-    - I want to ride from [271 Nguyen Van Linh](location) to [01 Le Dinh Ly](location)
+    - I want to ride from [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang]{"entity": "location", "role": "from"} to [45 Le Duan Phuong Phuoc Ninh Hai Chau Da Nang]{"entity": "location", "role": "to"} at tomorrow
+    - I want to ride  to [45 Le Duan Phuong Phuoc Ninh Hai Chau Da Nang]{"entity": "location", "role": "to"} from [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang]{"entity": "location", "role": "from"} at tomorrow
+    - I want to book [147/7 Le Dinh Ly Khuong Trung Da Nang Viet Nam]{"entity": "location", "role": "from"} to [147 Nguyen Dinh Ly Khuong Trung Da Nang Viet Nam]{"entity": "location", "role": "to"} at tomorrow
+    - I want to book from [147 Nguyen Dinh Ly Khuong Trung Da Nang Viet Nam]{"entity": "location", "role": "from"}
+    - I want to book a ride to [466 Tran Dai Nghia Da Nang Viet Nam]{"entity": "location", "role": "to"}
     - I want book a ride
     - i want book a car
     - i want boook a ride
     - i want book a ride
-    - [271 Nguyen Van Linh](location)
+    - i want book a ride from [135 Nguyen Van Linh Da Nang]{"entity": "location", "role": "from"} to [271 Nguyen Van Linh Da Nang]{"entity": "location", "role": "to"} at now
+    - i want book a car from [02 Au Co Hoa Khanh Bac Da Nang]{"entity": "location", "role": "from"} to [271 Nguyen Van Linh Da Nang]{"entity": "location", "role": "to"} at now
 - intent: cancel_ride
   examples: |
     - cancel ride
@@ -84,6 +89,32 @@ nlu:
     - help me please it's not working
     - it won't train
     - the bot won't train
+- intent: change_name
+  examples: |
+    - I'd like to change my name
+    - I want to change my name
+    - Can I update my name in your system?
+    - How do I change my name?
+    - Could you change my name in your records?
+    - i want to change my name
+- intent: change_phone
+  examples: |
+    - I'd like to update my phone number
+    - Can I change my phone number in your system?
+    - How do I change my phone number?
+    - Could you update my phone number in your records?
+- intent: change_pick_up_location
+  examples: |
+    - I'd like to change my pickup location
+    - Can I update my pickup address?
+    - How do I change my pickup address?
+    - Could you update my pickup location in your system?
+- intent: change_destination_location
+  examples: |
+    - I'd like to change my destination address
+    - Can I update my destination location?
+    - How do I change the destination address?
+    - Could you update my destination location in your system?
 - intent: ask_how_contribute
   examples: |
     - Can I assist?
@@ -628,26 +659,20 @@ nlu:
     - [spanish](language) is the only language but I want to add more
     - [susi ai](company)
     - [t-mobile US](company)
-    - [time](entity)
     - [ubisoft](company)
     - [vodafone](company)
     - [wurst co kg](company)
     - [xyz](company)
+    - I want to ride from [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang](location)
+    - I want to ride  to [45 Le Duan Phuong Phuoc Ninh Hai Chau Da Nang](location)
+    - I want to book [147/7 Le Dinh Ly Khuong Trung Da Nang Viet Nam](location)
     - The meeting is at [Central Park](location)
+    - [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang](location)
+    - [147/7 Le Dinh Ly Khuong Trung Da Nang Viet Nam](location)
     - I am at [123 Elm Street](location)
     - The event will be held in [New York](location)
     - I need a ride to [the airport](location)
-    - [271 Le Dinh Ly, Vinh Trung, Hai Chau, Đa Nang](location)
-    - The appointment is on [2024-09-10](dates)
-    - I need it by [next Friday](dates)
-    - The deadline is [October 15](dates)
-    - I will arrive on [2024-12-25](dates)
-    - I’ll call you at [10:30 AM](time)
-    - The event starts at [8 o'clock](time)
-    - Let’s meet at [3:45 PM](time)
-    - My appointment is at [noon](time)
-    - Can we schedule it for [4:00 PM](time)
-    - I want it [now](time)
+    - [271 Le Dinh Ly Vinh Trung Hai Chau Đa Nang](location)
     - a big ol transformer
     - a bot
     - a bot to get a promotion
@@ -1072,23 +1097,14 @@ nlu:
     - Huy
     - my name is [Huy](name)
     - my phone number is [0917159357](number)
-    - [271 Le Dinh Ly](location)
-    - [01 Le Dinh Ly](location)
-    - [1 Le Dinh Ly](location)
-    - [15 Tran Dai Nghia](location)
-    - [123 Elm Street](location)
-    - [10:30 AM](time)
-    - name is [Huy](name)
-    - my number [0917181880](number)
-    - [03 Le Dinh Ly](location)
-    - [03 Au Co](location)
-    - [10:30 PM](time)
-    - I want [10:30 PM](time)
-    - number is [0901159357](number)
-    - [470 Tran Dai Nghia](location)
-    - [10:00 AM](time)
     - name [Huy](name)
     - number [0917181880](number)
+    - my number is [0917181880](number)
+    - [271 Nguyen Van Linh Da Nang](location)
+    - [01 Nguyen Van Linh Da Nang](location)
+    - my name is [Huy](name)
+    - number is [0917181880](number)
+    - my new name is [Khoa](name)
 - intent: human_handoff
   examples: |
     - Can I speak to anyone who can really help me?
@@ -1172,19 +1188,6 @@ nlu:
     - hey, i said restart
     - restart session pls
     - restart ps
-- intent: deny
-  examples: |
-    - no, thanks
-    - no thanks
-- intent: bye
-  examples: |
-    - bye bye
-- intent: greet
-  examples: |
-    - hi
-- intent: affirm
-  examples: |
-    - yes
 - synonym: english
   examples: |
     - English

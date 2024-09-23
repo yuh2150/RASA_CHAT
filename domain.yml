@@ -7,6 +7,10 @@ intents:
 - bye
 - cancel_ride
 - canthelp
+- change_destination_location
+- change_name
+- change_phone
+- change_pick_up_location
 - check_fare
 - check_ride_status
 - chitchat:
@@ -15,6 +19,7 @@ intents:
     - mood
     - name
     - number
+    - phone-number
     - quoteId
     - quoteId_value
     - time
@@ -35,6 +40,7 @@ intents:
     - mood
     - name
     - number
+    - phone-number
     - quoteId
     - quoteId_value
     - time
@@ -47,13 +53,14 @@ intents:
 - restart
 - thank
 entities:
+- name
+- location
+- number
 - quoteId
 - time
-- number
-- location
-- name
 - mood
 - quoteId_value
+- phone-number
 slots:
   shown_privacy:
     type: text
@@ -77,10 +84,13 @@ slots:
     type: any
     mappings:
     - type: from_entity
-      entity: number
+      entity: phone-number
   pick_up_location:
     type: any
     mappings:
+    - type: from_entity
+      entity: location
+      role: from
     - type: from_entity
       entity: location
   destination_location:
@@ -88,11 +98,40 @@ slots:
     mappings:
     - type: from_entity
       entity: location
+      role: to
+    - type: from_entity
+      entity: location
   pick_up_time:
     type: any
     mappings:
     - type: from_entity
       entity: time
+  new_name:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: name
+  new_phone:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: phone-number
+  new_pickup_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+      role: from
+    - type: from_entity
+      entity: location
+  new_destination_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+      role: to
+    - type: from_entity
+      entity: location
 forms:
   book_ride_form:
     required_slots:
@@ -100,10 +139,17 @@ forms:
     - number_contact
     - pick_up_location
     - destination_location
+    - pick_up_time
 actions:
-- action_greet_user
-- action_submit_book_ride_form_to_get_quotes
+- action_geocoding
+- utter_ask_change_name
+- action_ask_confirm_info
+- action_change_name
+- utter_ask_problem_description
 - action_display_select_quotes
+- action_submit_book_ride_form_to_get_quotes
+- action_perform_booking_ride
+- action_greet_user
 - utter_bye
 - utter_ask_continue_booking
 - utter_what_help
@@ -119,8 +165,26 @@ actions:
 - action_explain_book_ride_form
 - utter_chitchat
 - utter_out_of_scope
-- action_perform_booking_ride
+- action_change_phone
+- action_change_pick_up_location
+- action_change_destination_location
 responses:
+  utter_ask_change_name:
+  - text: Sure, I can help with that! What would you like your new name to be?
+  - text: No problem! Please provide your current name and the new name you want to use.
+  - text: I'd be happy to assist. What name should I update your profile to?
+  utter_ask_change_phone:
+  - text: Of course! What would you like your new phone number to be?
+  - text: No problem! Please provide the new phone number you'd like to update.
+  - text: I can help with that! What’s the new phone number you'd like to use?
+  utter_ask_change_pickup:
+  - text: Got it! What’s your new pickup location?
+  - text: Sure, I can help with that. Please provide the updated pickup address.
+  - text: No problem! Where would you like to be picked up instead?
+  utter_ask_change_destination:
+  - text: Sure! What would you like your new destination to be?
+  - text: No problem! Please provide the updated destination address.
+  - text: Got it! Where would you like to change your destination to?
   utter_already_subscribed:
   - text: Looks like {email} is already subscribed - good choice! If you haven't received a newsletter in a while, maybe check your spam folder 🗑
   utter_anything_else:
